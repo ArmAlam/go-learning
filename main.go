@@ -15,6 +15,21 @@ type saver interface {
 	Save() error
 }
 
+type dispalyer interface {
+	Display()
+}
+
+// type outputtable interface {
+// 	Save() error
+// 	Display()
+// }
+
+// embeding existing interfaces to create new interface
+type outputtable interface {
+	saver
+	Display()
+}
+
 func main() {
 
 	title, content := getNoteData()
@@ -34,21 +49,19 @@ func main() {
 		return
 	}
 
-	todo.Display()
-
-	err = saveData(todo)
+	err = outputData(todo)
 
 	if err != nil {
 		return
 	}
 
-	userNote.Display()
+	saveData(userNote)
 
-	err = saveData(userNote)
+}
 
-	if err != nil {
-		return
-	}
+func outputData(data outputtable) error {
+	data.Display()
+	return saveData(data)
 }
 
 // saver interface works with both todo and note struct as they both have Save() method with same signature

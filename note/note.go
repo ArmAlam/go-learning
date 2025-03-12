@@ -10,13 +10,13 @@ import (
 )
 
 type Note struct {
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	Title     string    `json:"title"` //struct tag, used to attach metadata to struct fields, can be used by libraries (e.g., JSON) for processing data
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (note Note) Display() {
-	fmt.Printf("Note titile %v, note content %v", note.Title, note.Content)
+	fmt.Printf("Note title %v, note content %v", note.Title, note.Content)
 }
 
 func (note Note) Save() error {

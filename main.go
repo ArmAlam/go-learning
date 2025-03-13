@@ -35,6 +35,7 @@ func main() {
 	printAnything("Hello")
 	printAnything(1)
 	printAnything(1.0)
+	add(1, 2)
 
 	title, content := getNoteData()
 	todoText := getUserInput("Todo Text:")
@@ -137,4 +138,9 @@ func getUserInput(promt string) string {
 	text = strings.TrimSuffix(text, "\r") // for windows
 
 	return text
+}
+
+// genecis, can receive int, float64, string
+func add[T int | float64 | string](a, b T) T {
+	return a + b
 }

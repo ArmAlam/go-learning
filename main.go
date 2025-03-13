@@ -32,6 +32,8 @@ type outputtable interface {
 
 func main() {
 
+	printAnything("Hello")
+
 	title, content := getNoteData()
 	todoText := getUserInput("Todo Text:")
 
@@ -51,12 +53,21 @@ func main() {
 
 	err = outputData(todo)
 
-	if err != nil {
-		return
+	// no error handling here, as program execution stops here
+	outputData(userNote)
+
+}
+
+// this function can take any type of data
+func printAnything(value interface{}) {
+	switch value.(type) {
+	case int:
+		fmt.Println("Integer ", value)
+	case string:
+		fmt.Println("String ", value)
+	default:
+		fmt.Println("Unknown ", value)
 	}
-
-	saveData(userNote)
-
 }
 
 func outputData(data outputtable) error {

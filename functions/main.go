@@ -3,21 +3,16 @@ package main
 import "fmt"
 
 func main() {
-	numbers := []int{1, 2, 3}
+	fact := factorial(10)
 
-	transformed := transformNumbers(&numbers, func(number int) int { // pass an anonymous function
-		return number * 2
-	})
-
-	fmt.Println(transformed)
+	fmt.Println(fact)
 }
 
-func transformNumbers(numbers *[]int, transform func(int) int) []int {
-	dNumbers := []int{}
+func factorial(number int) int {
 
-	for _, val := range *numbers {
-		dNumbers = append(dNumbers, transform(val))
+	if number == 0 {
+		return 1
 	}
 
-	return dNumbers
+	return number * factorial(number-1)
 }

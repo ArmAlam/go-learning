@@ -1,6 +1,7 @@
 package main
 
 import (
+	"example/rest-api/db"
 	"example/rest-api/models"
 	"net/http"
 
@@ -8,6 +9,8 @@ import (
 )
 
 func main() {
+
+	db.InitDB()
 
 	server := gin.Default()
 

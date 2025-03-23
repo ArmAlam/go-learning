@@ -2,6 +2,7 @@ package routes
 
 import (
 	"example/rest-api/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -98,5 +99,33 @@ func updateEvent(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "Event updated"})
+
+}
+
+func deleteEvent(context *gin.Context) {
+	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Couldn't get events. Something went wrong"})
+		return
+	}
+
+	event, err := models.GetEventById(eventId)
+
+	fmt.Println(event)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldn't get event"})
+		return
+	}
+
+	err = event.Delete()
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Event deleted"})
 
 }

@@ -7,7 +7,7 @@ import (
 
 func greet(phrase string, doneChan chan bool) {
 	fmt.Println("Hello! ", phrase)
-	doneChan <- true
+	doneChan <- true // pass data to the channel
 }
 
 func slowGreet(phrase string, doneChan chan bool) {

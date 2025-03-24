@@ -2,7 +2,6 @@ package routes
 
 import (
 	"example/rest-api/models"
-	"example/rest-api/utils"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -44,25 +43,9 @@ func getEvents(context *gin.Context) {
 
 func createEvent(context *gin.Context) {
 
-	token := context.Request.Header.Get("Authorization")
-
-	if token == "" {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized"})
-
-		return
-	}
-
-	userId, err := utils.VerifyToken(token)
-
-	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized"})
-
-		return
-	}
-
 	var event models.Event
 
-	err = context.ShouldBindJSON(&event) // gin will populate data from the body for event
+	err := context.ShouldBindJSON(&event) // gin will populate data from the body for event
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Can't parse request body"})
@@ -70,6 +53,7 @@ func createEvent(context *gin.Context) {
 		return
 	}
 
+	userId := context.GetInt64("userId")
 	event.UserId = userId
 
 	err = event.Save()

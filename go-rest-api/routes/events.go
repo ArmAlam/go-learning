@@ -2,7 +2,6 @@ package routes
 
 import (
 	"example/rest-api/models"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -74,10 +73,16 @@ func updateEvent(context *gin.Context) {
 		return
 	}
 
-	_, err = models.GetEventById(eventId)
+	userId := context.GetInt64("userId")
+	event, err := models.GetEventById(eventId)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldn't get event"})
+		return
+	}
+
+	if event.UserId != userId {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 		return
 	}
 
@@ -112,10 +117,15 @@ func deleteEvent(context *gin.Context) {
 
 	event, err := models.GetEventById(eventId)
 
-	fmt.Println(event)
-
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldn't get event"})
+		return
+	}
+
+	userId := context.GetInt64("userId")
+
+	if event.UserId != userId {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 		return
 	}
 

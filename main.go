@@ -80,14 +80,14 @@ func printAnything(value interface{}) {
 		return
 	}
 
-	floatVal, ok := value.(float64) // check if integer
+	floatVal, ok := value.(float64) // check if float64
 
 	if ok {
 		fmt.Println("Float ", floatVal)
 		return
 	}
 
-	stringVal, ok := value.(string) // check if integer
+	stringVal, ok := value.(string) // check if string
 
 	if ok {
 		fmt.Println("String ", stringVal)

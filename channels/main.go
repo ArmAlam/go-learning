@@ -8,23 +8,35 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
-// unbuffered channel example
-
 func main() {
-	ch := make(chan string)
 
-	// Goroutine sending data
+	// ------------------- UNBUFFERED CHANNEL
+
+	// ch := make(chan string)
+
+	// // Goroutine sending data
+	// go func() {
+
+	// 	time.Sleep(8 * time.Second) // mock block operation
+	// 	ch <- "Hello from goroutine"
+	// }()
+
+	// // Receiving data from channel, block here until data arrives
+	// msg := <-ch
+
+	// fmt.Println(msg)
+
+	// ------------------- BUFFERED CHANNEL
+	ch := make(chan string, 2) // buffered channel with a capacity of 2
+
 	go func() {
-
-		time.Sleep(8 * time.Second) // mock block operation
-		ch <- "Hello from goroutine"
+		ch <- "Message 1"
+		ch <- "Message 2"
 	}()
 
-	// Receiving data from channel, block here until data arrives
-	msg := <-ch
-
-	fmt.Println(msg)
+	// Receiving data from channel
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
 }
